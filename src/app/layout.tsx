@@ -4,7 +4,7 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }:{children: React.ReactNode}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen transition-colors duration-300 bg-[var(--background)] text-[var(--foreground)]">
