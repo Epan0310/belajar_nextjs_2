@@ -32,7 +32,9 @@ export default function Home() {
         className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4"
       >
         Hi, I’m{" "}
-        <span className="text-blue-500 dark:text-blue-400">Evan Faadillah</span>{" "}
+        <span className="text-blue-500 dark:text-blue-400">
+          Evan Faadillah Prawidya
+        </span>{" "}
         👋
       </motion.h1>
 
