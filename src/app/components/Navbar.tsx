@@ -20,7 +20,7 @@ export default function Navbar() {
       </h1>
 
       {/* Nav Links */}
-      <div className="flex gap-6 text-[var(--foreground)] font-medium">
+      <div className="hidden sm:flex gap-6 text-[var(--foreground)] font-medium">
         <Link
           href="/"
           className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
@@ -40,6 +40,12 @@ export default function Navbar() {
           Projects
         </Link>
         <Link
+          href="/gallery"
+          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+        >
+          Gallery
+        </Link>
+        <Link
           href="/contact"
           className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
         >
@@ -50,11 +56,52 @@ export default function Navbar() {
       {/* Dark Mode Toggle */}
       <button
         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className="ml-6 rounded-full border border-gray-400 dark:border-gray-600 p-2 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
+        className="ml-4 rounded-full border border-gray-400 dark:border-gray-600 p-2 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
         aria-label="Toggle Dark Mode"
       >
         {theme === "light" ? "🌙" : "☀️"}
       </button>
+
+      {/* Mobile Menu Button */}
+      <div className="sm:hidden flex items-center">
+        <details className="relative">
+          <summary className="list-none cursor-pointer ml-3 p-2 border rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+            ☰
+          </summary>
+          <div className="absolute right-0 mt-2 w-40 bg-[var(--background)] border border-gray-200 dark:border-gray-700 rounded-lg shadow-md py-2 flex flex-col text-sm">
+            <Link
+              href="/"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              About
+            </Link>
+            <Link
+              href="/projects"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              Projects
+            </Link>
+            <Link
+              href="/gallery"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              Gallery
+            </Link>
+            <Link
+              href="/contact"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              Contact
+            </Link>
+          </div>
+        </details>
+      </div>
     </nav>
   );
 }

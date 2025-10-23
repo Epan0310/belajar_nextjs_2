@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
-/* 🌈 Warna default (mode terang) */
+/* 🌈 Warna dasar (light mode) */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent: #3b82f6; /* warna biru elegan */
+  --muted: #f3f4f6;
 }
 
-/* 🌙 Warna saat dark mode aktif */
+/* 🌙 Dark mode */
 html.dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --accent: #60a5fa; /* biru lebih lembut untuk dark mode */
+  --muted: #1f2937;
 }
 
-/* 🌐 Variabel untuk Tailwind @theme inline */
+/* 🌐 Variabel untuk Tailwind inline */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -20,19 +24,84 @@ html.dark {
   --font-mono: var(--font-geist-mono);
 }
 
-/* 🌗 Hapus preferensi media biar tidak bentrok dengan next-themes */
+/* 🧍 Body */
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans, Arial, Helvetica, sans-serif);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.7;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  scroll-behavior: smooth;
 }
 
-/* ✨ Optional: untuk smooth background global */
+/* 🌫️ Transisi global untuk tema */
 html {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* 🔗 Navbar links */
 nav a {
   text-decoration: none;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* 💠 Tombol umum (bisa dipakai di project & contact) */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* 🩵 Kartu / konten umum (About, Projects, Contact) */
+.card {
+  background-color: var(--muted);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+html.dark .card {
+  background-color: var(--muted);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Hover efek untuk kartu */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ✨ Animasi fade-in halus */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🧭 Responsif tambahan */
+@media (max-width: 640px) {
+  nav {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
 }
