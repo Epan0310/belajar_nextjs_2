@@ -19,7 +19,7 @@ export default function Navbar() {
         </Link>
       </h1>
 
-      {/* Nav Links */}
+      {/* Desktop Nav Links */}
       <div className="hidden sm:flex gap-6 text-[var(--foreground)] font-medium">
         <Link
           href="/"
@@ -40,6 +40,12 @@ export default function Navbar() {
           Projects
         </Link>
         <Link
+          href="/skills"
+          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+        >
+          Skills
+        </Link>
+        <Link
           href="/gallery"
           className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
         >
@@ -50,12 +56,6 @@ export default function Navbar() {
           className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
         >
           Contact
-        </Link>
-        <Link
-          href="/skills"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-        >
-          Skills
         </Link>
       </div>
 
@@ -68,7 +68,7 @@ export default function Navbar() {
         {theme === "light" ? "🌙" : "☀️"}
       </button>
 
-      {/* Mobile Menu Button */}
+      {/* Mobile Menu */}
       <div className="sm:hidden flex items-center">
         <details className="relative">
           <summary className="list-none cursor-pointer ml-3 p-2 border rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition">
@@ -92,6 +92,12 @@ export default function Navbar() {
               className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               Projects
+            </Link>
+            <Link
+              href="/skills"
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              Skills
             </Link>
             <Link
               href="/gallery"
