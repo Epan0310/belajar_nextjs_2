@@ -51,6 +51,12 @@ export default function Navbar() {
         >
           Contact
         </Link>
+        <Link
+          href="/skills"
+          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+        >
+          Skills
+        </Link>
       </div>
 
       {/* Dark Mode Toggle */}
