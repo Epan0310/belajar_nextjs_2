@@ -1,119 +1,160 @@
 "use client";
+
+/**
+ * Navbar.tsx
+ * Responsive navigation bar with:
+ * - Active link highlight via usePathname
+ * - Animated mobile hamburger menu (Framer Motion)
+ * - Dark/Light mode toggle
+ * - Resume external link
+ */
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Code2, Sun, Moon, Menu, X, ExternalLink } from "lucide-react";
+
+const navLinks = [
+  { href: "/",         label: "Home"     },
+  { href: "/about",    label: "About"    },
+  { href: "/projects", label: "Projects" },
+];
+
+const RESUME_URL = "https://drive.google.com/drive/folders/1oDn29NG9yF4sM87E6M9O6pz7rIh91Q0g";
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
+  useEffect(() => { setMounted(true); }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
+
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
-    <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 backdrop-blur-md bg-[var(--background)]/80 border-b border-gray-200 dark:border-gray-800 shadow-sm z-50 transition-all duration-300">
-      {/* Logo / Title */}
-      <h1 className="text-xl font-semibold text-[var(--foreground)]">
-        <Link href="/" className="hover:opacity-80 transition-opacity">
-          🌍 MySite
-        </Link>
-      </h1>
+    <nav className="fixed top-0 left-0 w-full z-50 border-b border-[var(--bg-border)] bg-[var(--bg-surface)]/80 backdrop-blur-xl transition-all duration-300">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-      {/* Desktop Nav Links */}
-      <div className="hidden sm:flex gap-6 text-[var(--foreground)] font-medium">
+        {/* ── Brand ── */}
         <Link
           href="/"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+          className="flex items-center gap-2 font-mono font-bold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors duration-200"
         >
-          Home
+          <Code2 size={20} className="text-[var(--accent)]" />
+          <span>evan<span className="text-[var(--accent)]">.dev</span></span>
         </Link>
-        <Link
-          href="/about"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-        >
-          About
-        </Link>
-        <Link
-          href="/projects"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-        >
-          Projects
-        </Link>
-        <Link
-          href="/skills"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-        >
-          Skills
-        </Link>
-        <Link
-          href="/gallery"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-        >
-          Gallery
-        </Link>
-        <Link
-          href="/contact"
-          className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-        >
-          Contact
-        </Link>
+
+        {/* ── Desktop Links ── */}
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map(({ href, label }) => {
+            const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`
+                  relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                  ${isActive
+                    ? "text-[var(--accent)] bg-[var(--accent)]/8"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]"
+                  }
+                `}
+              >
+                {label}
+                {isActive && (
+                  <motion.span
+                    layoutId="activeLink"
+                    className="absolute inset-0 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/20"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
+
+          {/* Resume external link */}
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 ml-2 px-4 py-2 rounded-lg text-sm font-semibold bg-[var(--accent)] text-[var(--bg-base)] hover:opacity-90 transition-opacity duration-200"
+          >
+            Resume
+            <ExternalLink size={12} />
+          </a>
+        </div>
+
+        {/* ── Theme Toggle + Hamburger ── */}
+        <div className="flex items-center gap-2">
+          {mounted && (
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg border border-[var(--bg-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] transition-all duration-200"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          )}
+
+          {/* Hamburger — mobile only */}
+          <button
+            className="md:hidden p-2 rounded-lg border border-[var(--bg-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all duration-200"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
       </div>
 
-      {/* Dark Mode Toggle */}
-      <button
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className="ml-4 rounded-full border border-gray-400 dark:border-gray-600 p-2 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
-        aria-label="Toggle Dark Mode"
-      >
-        {theme === "light" ? "🌙" : "☀️"}
-      </button>
-
-      {/* Mobile Menu */}
-      <div className="sm:hidden flex items-center">
-        <details className="relative">
-          <summary className="list-none cursor-pointer ml-3 p-2 border rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-            ☰
-          </summary>
-          <div className="absolute right-0 mt-2 w-40 bg-[var(--background)] border border-gray-200 dark:border-gray-700 rounded-lg shadow-md py-2 flex flex-col text-sm">
-            <Link
-              href="/"
-              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              About
-            </Link>
-            <Link
-              href="/projects"
-              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              Projects
-            </Link>
-            <Link
-              href="/skills"
-              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              Skills
-            </Link>
-            <Link
-              href="/gallery"
-              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              Gallery
-            </Link>
-            <Link
-              href="/contact"
-              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              Contact
-            </Link>
-          </div>
-        </details>
-      </div>
+      {/* ── Mobile Menu ── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden border-t border-[var(--bg-border)] bg-[var(--bg-surface)] md:hidden"
+          >
+            <div className="flex flex-col px-6 py-4 gap-1">
+              {navLinks.map(({ href, label }) => {
+                const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={`
+                      px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200
+                      ${isActive
+                        ? "text-[var(--accent)] bg-[var(--accent)]/10"
+                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]"
+                      }
+                    `}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
+              <a
+                href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 mt-2 px-4 py-3 rounded-lg text-sm font-semibold bg-[var(--accent)] text-[var(--bg-base)] hover:opacity-90 transition-opacity"
+              >
+                Resume <ExternalLink size={13} />
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
