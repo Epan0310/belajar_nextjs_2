@@ -43,6 +43,14 @@ export default function Footer() {
           </span>
         </div>
 
+        {/* Internal Navigation */}
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm font-medium text-[var(--text-secondary)]">
+          <Link href="/" className="hover:text-[var(--accent)] transition-colors">Home</Link>
+          <Link href="/about" className="hover:text-[var(--accent)] transition-colors">About</Link>
+          <Link href="/projects" className="hover:text-[var(--accent)] transition-colors">Projects</Link>
+          <Link href="/gallery" className="hover:text-[var(--accent)] transition-colors">Gallery</Link>
+        </div>
+
         {/* Social links */}
         <div className="flex items-center gap-3">
           {socialLinks.map(({ href, icon: Icon, label, hoverClass }) => (

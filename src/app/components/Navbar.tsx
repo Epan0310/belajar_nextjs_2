@@ -20,6 +20,7 @@ const navLinks = [
   { href: "/",         label: "Home"     },
   { href: "/about",    label: "About"    },
   { href: "/projects", label: "Projects" },
+  { href: "/gallery",  label: "Gallery"  },
 ];
 
 const RESUME_URL = "https://drive.google.com/drive/folders/1oDn29NG9yF4sM87E6M9O6pz7rIh91Q0g";
